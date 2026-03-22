@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  /* Definimos el verde neón de MR SKABIO */
+  --color-neon: #00ff00;
+  
+  /* Definimos las sombras personalizadas */
+  --shadow-neon: 0 0 5px #00ff00, 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
+/* Base de la aplicación */
+@layer base {
+  body {
+    background-color: #000000;
+    color: #ffffff;
+    margin: 0;
+    overflow: hidden;
+  }
+}
+
+/* Utilidades personalizadas para el scrollbar */
+@utility custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #000;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-neon);
+    border-radius: 10px;
+  }
+}
