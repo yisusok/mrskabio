@@ -8,9 +8,11 @@ import { Module } from '@nestjs/common';
 import { ProductoModule } from 'src/producto/producto.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Venta, VentaDetalle, Producto]),
-  ProductoModule],
-  controllers: [VentaController],
+  imports: [
+    TypeOrmModule.forFeature([Venta, VentaDetalle]),
+    ProductoModule, // 🔥 ESTO DEBE ESTAR EN IMPORTS
+  ],
   providers: [VentaService],
+  controllers: [VentaController],
 })
 export class VentaModule {}

@@ -1,20 +1,23 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Venta } from '../venta/venta.entity';
+import { Venta } from './venta.entity';
 
 @Entity()
 export class VentaDetalle {
   @PrimaryGeneratedColumn('uuid')
-  id!: string; // 🔥 Generado por DB
-
-  @ManyToOne(() => Venta, venta => venta.detalles)
-  venta!: Venta; // 🔥 Marca que siempre existe la venta asociada
+  id!: string;
 
   @Column()
   productoId!: string;
 
-  @Column({ type: 'int' })
+  @Column()
   cantidad!: number;
 
-  @Column({ type: 'float' })
+  @Column('decimal', { precision: 10, scale: 2 })
   precio!: number;
+
+  // 🔥 RELACIÓN CORRECTA
+  @ManyToOne(() => Venta, venta => venta.detalles, {
+    onDelete: 'CASCADE',
+  })
+  venta!: Venta;
 }

@@ -1,17 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
 import { VentaDetalle } from './venta-detalle.entity';
 
 @Entity()
 export class Venta {
   @PrimaryGeneratedColumn('uuid')
-  id!: string; // 🔥 Viene generado por la DB
+  id!: string;
 
   @Column()
   metodoPago!: string;
 
-  @Column({ type: 'float' })
+  @Column('decimal', { precision: 10, scale: 2, default:0 })
   total!: number;
 
-  @OneToMany(() => VentaDetalle, detalle => detalle.venta, { cascade: true })
-  detalles!: VentaDetalle[]; // 🔥 Aquí TypeScript ya sabe que es un array de VentaDetalle
+  // 🔥 Fecha automática
+  @CreateDateColumn()
+  fecha!: Date;
+
+  @OneToMany(() => VentaDetalle, detalle => detalle.venta, {
+    cascade: true,
+  })
+  detalles!: VentaDetalle[];
 }

@@ -1,38 +1,46 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { ProductoService } from './producto.service';
-import { Producto } from './producto.entity';
 
 @Controller('producto')
 export class ProductoController {
   constructor(private readonly service: ProductoService) {}
 
   @Get()
-  findAll(): Promise<Producto[]> {
+  findAll() {
     return this.service.findAll();
   }
 
   @Get('disponibles')
-  findDisponibles(): Promise<Producto[]> {
+  findDisponibles() {
     return this.service.findDisponibles();
   }
 
+  // 🔥 NUEVO: Para crear productos simples (lo que te daba el alert de error)
   @Post()
-  create(@Body() body: Partial<Producto>): Promise<Producto> {
+  create(@Body() body: any) {
     return this.service.create(body);
   }
 
-  @Post('descontar-stock')
-  descontarStock(@Body() items: { productoId: string; cantidad: number }[]) {
-    return this.service.descontarStock(items);
+  // Para crear combos
+  @Post('combo')
+  crearCombo(@Body() body: any) {
+    return this.service.crearCombo(body);
   }
 
+  // Para descontar stock manualmente o desde ventas
+  @Post('descontar')
+  descontar(@Body() body: { productoId: string; cantidad: number }[]) {
+    return this.service.descontarStock(body);
+  }
+
+  // 🔥 NUEVO: Para que el botón "GUARDAR" del Modal de Edición funcione
   @Put(':id')
-  async update(@Param('id') id: string, @Body() data: any) {
-    return this.service.update(id, data);
+  update(@Param('id') id: string, @Body() body: any) {
+    return this.service.update(id, body);
   }
 
-@Delete(':id')
-async delete(@Param('id') id: string) {
-  return this.service.delete(id);
-}
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.service.delete(id);
+  }
 }
